@@ -22,26 +22,26 @@
                     <input type="hidden" id="id" name="id" th:value="*{id}"/>
                     <p><strong>Dados pessoais:</strong></p>
                     <label th:for="name">Nome:</label>
-                    <input type="text" id="name" name="name" th:value="*{name}" /><br><br>
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    <input type="text" id="name" name="name" th:value="*{name}" />
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div><br><br>
 
                     <label for="birthdate">Nascimento: </label>
-                    <input type="date" id="birthdate" name="birthdate" th:value="*{birthdate}" /><br><br>
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}"></div>
+                    <input type="date" id="birthdate" name="birthdate" th:value="*{birthdate}" />
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}"></div><br><br>
 
                     <label for="mother">Nome da mãe:</label>
-                    <input type="text" id="mother" name="mother" th:value="*{mother}" /><br><br>
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('mother')}" th:errors="*{mother}"></div>
+                    <input type="text" id="mother" name="mother" th:value="*{mother}" />
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('mother')}" th:errors="*{mother}"></div><br><br>
 
                     <label for="father">Nome do pai:</label>
-                    <input type="text" id="father" name="father" th:value="*{father}" /><br><br>
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('father')}" th:errors="*{father}"></div>
+                    <input type="text" id="father" name="father" th:value="*{father}" />
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('father')}" th:errors="*{father}"></div><br><br>
 
                     <label for="phone">Telefone:(</label>
                     <input type="text" name="ddd" id="ddd" th:value="*{ddd}" /> )
+                    <input type="tel" id="phone" name="phone" th:value="*{phone}" />
                     <div class="alert alert-danger" th:if="${#fields.hasErrors('ddd')}" th:errors="*{ddd}"></div>
-                    <input type="tel" id="phone" name="phone" th:value="*{phone}" /><br><br>
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div><br><br>
 
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email"  th:value="*{email}" />

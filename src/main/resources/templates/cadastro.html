@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Escola Virtual</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+
+    <body>
+        <h1>Escola Virtual</h1>
+        <h2>Formulário de Pré-Matrícula</h2>
+        <hr class="linha">
+        
+            <form method="post" action="/cadastro" th:action="@{/cadastro}" th:object="${form}">
+                <div class="alert alert-danger" th:if="${#fields.hasGlobalErrors()}">
+                    <ul>
+                      <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+                    </ul>
+                </div>
+                <div class="dados">
+                    <input type="hidden" id="id" name="id" th:value="*{id}"/>
+                    <p><strong>Dados pessoais:</strong></p>
+                    <label th:for="name">Nome:</label>
+                    <input type="text" id="name" name="name" th:value="*{name}" /><br><br>
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+                    <label for="birthdate">Nascimento: </label>
+                    <input type="date" id="birthdate" name="birthdate" th:value="*{birthdate}" /><br><br>
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}"></div>
+
+                    <label for="mother">Nome da mãe:</label>
+                    <input type="text" id="mother" name="mother" th:value="*{mother}" /><br><br>
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('mother')}" th:errors="*{mother}"></div>
+
+                    <label for="father">Nome do pai:</label>
+                    <input type="text" id="father" name="father" th:value="*{father}" /><br><br>
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('father')}" th:errors="*{father}"></div>
+
+                    <label for="phone">Telefone:(</label>
+                    <input type="text" name="ddd" id="ddd" th:value="*{ddd}" /> )
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('ddd')}" th:errors="*{ddd}"></div>
+                    <input type="tel" id="phone" name="phone" th:value="*{phone}" /><br><br>
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email"  th:value="*{email}" />
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div><br><br>
+                </div>
+                <div class="dados">
+                    <p><strong>Informações de matrícula:</strong></p>
+                    <label th:for="grade">Série:</label>
+                    <select id="grade" name="grade" th:field="*{grade}">
+                        <option th:each="gr : ${gradeOptions}" th:value="${gr}" th:text="${gr}"></option>
+                    </select>
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('grade')}" th:errors="*{grade}"></div><br><br>
+                
+                        <p>Turno:</p>
+                        <ul>
+                            <li th:each="sh : ${shiftOptions}">
+                              <input type="radio" th:field="*{shift}" th:value="${sh}" />
+                              <label th:for="shift" th:text="${sh}"></label>
+                            </li>
+                          </ul>
+                          <div class="alert alert-danger" th:if="${#fields.hasErrors('shift')}" th:errors="*{shift}"></div><br><br>
+                
+                        <p>Atividades Extracurriculares:</p>
+                        <ul>
+                            <li th:each="extra : ${extraOptions}">
+                                <input type="checkbox" th:field="*{extracurricular}" th:value="${extra}" />
+                                <label th:for="extracurricular" th:text="${extra}"></label>
+                            </li>   
+                        </ul>
+                        <div class="alert alert-danger" th:if="${#fields.hasErrors('extracurricular')}" th:errors="*{extracurricular}"></div><br>
+
+                        <script type="text/javascript" th:src="@{/js/checkbox-limit.js}"></script>
+                
+                        <input type="submit" value="Enviar Formulário">
+                        <input type="reset" value="Limpar Campos">
+                    </div>
+            </form>
+            <script type="text/javascript" th:src="@{/js/reset-page.js}"></script>    
+    </body>
+</html>

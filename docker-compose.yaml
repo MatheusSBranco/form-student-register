@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  mysql_server_projeto:
+    image: mysql:latest
+    hostname: mysql
+    ports:
+      - 11111:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_USER: teste
+      MYSQL_PASSWORD: mypassword
+      MYSQL_DATABASE: form

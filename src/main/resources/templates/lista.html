@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Escola Virtual</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body>
+        <h1>Escola Virtual</h1>
+        <h2>Lista de Matrícula</h2>
+        <hr class="linha">
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Aluno</th>
+                    <th>Data de Nascimento</th>
+                    <th>Nome da Mãe</th>
+                    <th>Nome do Pai</th>
+                    <th>DDD</th>
+                    <th>Telefone</th>
+                    <th>Email</th>
+                    <th>Série</th>
+                    <th>Turno</th>
+                    <th>Atividades Extracurriculares</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-th-each="form : ${forms}">
+                    <td data-th-text="${form.id}"></td>
+                    <td data-th-text="${form.name}"></td>
+                    <td data-th-text="${{form.birthdate}}"></td>
+                    <td data-th-text="${form.mother}"></td>
+                    <td data-th-text="${form.father}"></td>
+                    <td data-th-text="${form.ddd}"></td>
+                    <td data-th-text="${form.phone}"></td>
+                    <td data-th-text="${form.email}"></td>
+                    <td data-th-text="${form.grade}"></td>
+                    <td data-th-text="${form.shift}"></td>
+                    <td data-th-text="${form.extracurricular}"></td>
+                    <td>
+                        <a th:href="@{'/editar/'+${form.id}}">Editar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="/cadastro">Cadastrar aluno</a>
+               
+    </body>
+</html>

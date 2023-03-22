@@ -42,14 +42,11 @@
                     <td data-th-text="${form.grade}"></td>
                     <td data-th-text="${form.shift}"></td>
                     <td data-th-text="${form.extracurricular}"></td>
-                    <td>
-                        <a th:href="@{'/editar/'+${form.id}}">Editar</a>
-                    </td>
                 </tr>
             </tbody>
         </table>
 
-        <a href="/cadastro">Cadastrar aluno</a>
+        <a th:href="@{/cadastro}">Cadastrar aluno</a>
                
     </body>
 </html>

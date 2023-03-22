@@ -1,20 +1,22 @@
-package com.cadastro.aluno.model;
+package com.cadastro.aluno.dto;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import com.cadastro.aluno.dto.FormDto;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-@Entity
-public class Form {
+public class FormDto {
 
-    public Form(Long id, String name, LocalDate birthdate, String mother, String father, int ddd, String phone, String email,
+    public FormDto(){
+    }
+
+    public FormDto(Long id, String name, LocalDate birthdate, String mother, String father, int ddd, String phone, String email,
             String grade, String shift, List<String> extracurricular) {
         this.id = id;
         this.name = name;
@@ -29,42 +31,45 @@ public class Form {
         this.extracurricular = extracurricular;
     }
 
-    public Form(){
-    }
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @NotBlank(message = "Nome é obrigatório")
+    @Size(max=100, message="Máximo de 100 caracteres para o Nome")
     private String name;
 
-    @Column
+    @NotNull(message = "Data de Nascimento é obrigatório")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthdate;
 
-    @Column
+    @NotBlank(message = "Nome da mãe é obrigatório")
+    @Size(max=100, message="Máximo de 100 caracteres para o Nome da Mãe")
     private String mother;
 
-    @Column
+    @NotBlank(message = "Nome do pai é obrigatório")
+    @Size(max=100, message="Máximo de 100 caracteres para o Nome do Pai")
     private String father;
 
-    @Column
+    @NotNull(message = "DDD é obrigatório")
     private int ddd;
 
-    @Column
+    @NotBlank(message = "Telefone é obrigatório")
+    @Size(min=9, max=10, message = "Telefone tem que conter os 9 dígitos")
+    @Pattern(regexp = "\\d{4,5}-\\d{4}", message = "Telefone tem que ter o ' - ' ")
     private String phone;
 
-    @Column
+    @NotBlank(message = "Email é obrigatório")
+    @Email(message = "Email inválido")
     private String email;
 
-    @Column
+    @NotBlank(message = "Série é obrigatório")
     private String grade;
 
-    @Column
+    @NotBlank(message = "Turno é obrigatório")
     private String shift;
 
-    @Column
+    @Size(max=3, message="Máximo de 3 atividades extracurriculares")
     private List<String> extracurricular;    
+
 
     public Long getId() {
         return id;
@@ -152,21 +157,5 @@ public class Form {
 
     public void setExtracurricular(List<String> extracurricular) {
         this.extracurricular = extracurricular;
-    }
-
-    public static Form dtoToForm(FormDto formDto) {
-        Form form = new Form();
-        form.setId(formDto.getId());
-        form.setName(formDto.getName());
-        form.setBirthdate(formDto.getBirthdate());
-        form.setMother(formDto.getMother());
-        form.setFather(formDto.getFather());
-        form.setDdd(formDto.getDdd());
-        form.setPhone(formDto.getPhone());
-        form.setEmail(formDto.getEmail());
-        form.setGrade(formDto.getGrade());
-        form.setShift(formDto.getShift());
-        form.setExtracurricular(formDto.getExtracurricular());
-        return form;
     }
 }

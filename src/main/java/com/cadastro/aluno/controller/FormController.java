@@ -1,28 +1,43 @@
 package com.cadastro.aluno.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cadastro.aluno.dto.FormDto;
 import com.cadastro.aluno.model.Form;
+import com.cadastro.aluno.repository.FormRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
 
 @Controller
 public class FormController {
 
-    List<Form> forms = new ArrayList<>();
+    private final FormRepository formRepository;
+
+    @PersistenceContext
+    private final EntityManager entityManager;
+
+    @Autowired
+    public FormController(FormRepository formRepository, EntityManager entityManager){
+        this.formRepository = formRepository;
+        this.entityManager = entityManager;
+    }
     
     @GetMapping("/cadastro")
-    public ModelAndView home(){
+    public ModelAndView home(FormDto formDto){
         ModelAndView mv = new ModelAndView("cadastro");
         mv.addObject("form", new Form());
         mv.addObject("gradeOptions", gradeOptions());
@@ -32,21 +47,25 @@ public class FormController {
     }
 
     @PostMapping("/cadastro")
-    public String cadastro(@Valid Form form, BindingResult bindingResult){
+    public String cadastro(@Valid FormDto formDto, BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
-            return "cadastro";
-        }
-
-        if(form.getId() != null) {
-            Form formFind = forms.stream().filter(formItem -> form.getId().equals(formItem.getId())).findFirst().get();
-
-            forms.set(forms.indexOf(formFind), form);
-        } else {
-            Long id = forms.size() + 1L;
-            forms.add(new Form(id, form.getName(), form.getBirthdate(), form.getMother(), form.getFather(), form.getDdd(), form.getPhone(), form.getEmail(), form.getGrade(), form.getShift(), form.getExtracurricular()));
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/error";
         }        
+
+            Form form = Form.dtoToForm(formDto);
+            form.setName(formDto.getName());
+            form.setBirthdate(formDto.getBirthdate());
+            form.setMother(formDto.getMother());
+            form.setFather(formDto.getFather());
+            form.setDdd(formDto.getDdd());
+            form.setPhone(formDto.getPhone());
+            form.setEmail(formDto.getEmail());
+            form.setGrade(formDto.getGrade());
+            form.setShift(formDto.getShift());
+            form.setExtracurricular(formDto.getExtracurricular());
+            formRepository.save(form);   
 
         return "redirect:/lista";
     }
@@ -54,16 +73,15 @@ public class FormController {
     @GetMapping("/lista")
     public ModelAndView lista(){
         ModelAndView mv = new ModelAndView("lista");
-        mv.addObject("forms", forms);
+        mv.addObject("forms", formRepository.findAll());
         return mv;
     }
 
-    @GetMapping("/editar/{id}")
-    public ModelAndView editar(@PathVariable("id") Long id) {
-        ModelAndView mv = new ModelAndView("cadastro");
-        Form formFind = forms.stream().filter(form -> id.equals(form.getId())).findFirst().get();
-        mv.addObject("form", formFind);
-        return mv;
+    @GetMapping("/error")
+    public String error(Model model) {
+        List<ObjectError> errors = (List<ObjectError>) model.asMap().get("errors");
+        model.addAttribute("errors", errors);
+        return "error";
     }
 
     @ModelAttribute("gradeOptions")

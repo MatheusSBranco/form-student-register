@@ -12,48 +12,34 @@
         <h2>Formulário de Pré-Matrícula</h2>
         <hr class="linha">
         
-            <form method="post" action="/cadastro" th:action="@{/cadastro}" th:object="${form}">
-                <div class="alert alert-danger" th:if="${#fields.hasGlobalErrors()}">
-                    <ul>
-                      <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
-                    </ul>
-                </div>
+            <form method="post" action="#" th:action="@{/cadastro}" th:object="${form}">
                 <div class="dados">
-                    <input type="hidden" id="id" name="id" th:value="*{id}"/>
                     <p><strong>Dados pessoais:</strong></p>
                     <label th:for="name">Nome:</label>
-                    <input type="text" id="name" name="name" th:value="*{name}" />
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div><br><br>
+                    <input type="text" id="name" name="name" th:value="*{name}" /><br><br>
 
                     <label for="birthdate">Nascimento: </label>
-                    <input type="date" id="birthdate" name="birthdate" th:value="*{birthdate}" />
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}"></div><br><br>
+                    <input type="date" id="birthdate" name="birthdate" th:value="*{birthdate}" /><br><br>
 
                     <label for="mother">Nome da mãe:</label>
-                    <input type="text" id="mother" name="mother" th:value="*{mother}" />
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('mother')}" th:errors="*{mother}"></div><br><br>
+                    <input type="text" id="mother" name="mother" th:value="*{mother}" /><br><br>
 
                     <label for="father">Nome do pai:</label>
-                    <input type="text" id="father" name="father" th:value="*{father}" />
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('father')}" th:errors="*{father}"></div><br><br>
+                    <input type="text" id="father" name="father" th:value="*{father}" /><br><br>
 
                     <label for="phone">Telefone:(</label>
                     <input type="text" name="ddd" id="ddd" th:value="*{ddd}" /> )
-                    <input type="tel" id="phone" name="phone" th:value="*{phone}" />
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('ddd')}" th:errors="*{ddd}"></div>
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div><br><br>
+                    <input type="tel" id="phone" name="phone" th:value="*{phone}" /><br><br>
 
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email"  th:value="*{email}" />
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div><br><br>
+                    <input type="email" id="email" name="email"  th:value="*{email}" /><br><br>
                 </div>
                 <div class="dados">
                     <p><strong>Informações de matrícula:</strong></p>
                     <label th:for="grade">Série:</label>
                     <select id="grade" name="grade" th:field="*{grade}">
                         <option th:each="gr : ${gradeOptions}" th:value="${gr}" th:text="${gr}"></option>
-                    </select>
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('grade')}" th:errors="*{grade}"></div><br><br>
+                    </select><br><br>
                 
                         <p>Turno:</p>
                         <ul>
@@ -61,8 +47,7 @@
                               <input type="radio" th:field="*{shift}" th:value="${sh}" />
                               <label th:for="shift" th:text="${sh}"></label>
                             </li>
-                          </ul>
-                          <div class="alert alert-danger" th:if="${#fields.hasErrors('shift')}" th:errors="*{shift}"></div><br><br>
+                          </ul><br><br>
                 
                         <p>Atividades Extracurriculares:</p>
                         <ul>
@@ -70,8 +55,7 @@
                                 <input type="checkbox" th:field="*{extracurricular}" th:value="${extra}" />
                                 <label th:for="extracurricular" th:text="${extra}"></label>
                             </li>   
-                        </ul>
-                        <div class="alert alert-danger" th:if="${#fields.hasErrors('extracurricular')}" th:errors="*{extracurricular}"></div><br>
+                        </ul><br>
 
                         <script type="text/javascript" th:src="@{/js/checkbox-limit.js}"></script>
                 
@@ -79,6 +63,6 @@
                         <input type="reset" value="Limpar Campos">
                     </div>
             </form>
-            <script type="text/javascript" th:src="@{/js/reset-page.js}"></script>    
+   
     </body>
 </html>

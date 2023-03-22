@@ -14,7 +14,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Form {
 
-    public Form(Long id, String name, LocalDate birthdate, String mother, String father, int ddd, String phone, String email,
+    public Form(Long id, String name, LocalDate birthdate, String mother, String father, String ddd, String phone, String email,
             String grade, String shift, List<String> extracurricular) {
         this.id = id;
         this.name = name;
@@ -49,7 +49,7 @@ public class Form {
     private String father;
 
     @Column
-    private int ddd;
+    private String ddd;
 
     @Column
     private String phone;
@@ -106,11 +106,11 @@ public class Form {
         this.father = father;
     }
 
-    public int getDdd() {
+    public String getDdd() {
         return ddd;
     }
 
-    public void setDdd(int ddd) {
+    public void setDdd(String ddd) {
         this.ddd = ddd;
     }
 

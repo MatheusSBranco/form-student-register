@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.cadastro.aluno.validations.ValidDdd;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +18,7 @@ public class FormDto {
     public FormDto(){
     }
 
-    public FormDto(Long id, String name, LocalDate birthdate, String mother, String father, int ddd, String phone, String email,
+    public FormDto(Long id, String name, LocalDate birthdate, String mother, String father, String ddd, String phone, String email,
             String grade, String shift, List<String> extracurricular) {
         this.id = id;
         this.name = name;
@@ -49,8 +51,10 @@ public class FormDto {
     @Size(max=100, message="Máximo de 100 caracteres para o Nome do Pai")
     private String father;
 
-    @NotNull(message = "DDD é obrigatório")
-    private int ddd;
+    @NotBlank(message = "DDD é obrigatório")
+    @Pattern(regexp = "\\d{2}", message = "DDD inválido")
+    @ValidDdd
+    private String ddd;
 
     @NotBlank(message = "Telefone é obrigatório")
     @Size(min=9, max=10, message = "Telefone tem que conter os 9 dígitos")
@@ -111,11 +115,11 @@ public class FormDto {
         this.father = father;
     }
 
-    public int getDdd() {
+    public String getDdd() {
         return ddd;
     }
 
-    public void setDdd(int ddd) {
+    public void setDdd(String ddd) {
         this.ddd = ddd;
     }
 

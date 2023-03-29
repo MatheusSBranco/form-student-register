@@ -16,7 +16,7 @@
                 <div class="dados">
                     <p><strong>Dados pessoais:</strong></p>
                     <label th:for="name">Nome:</label>
-                    <input type="text" id="name" name="name" th:value="*{name}" /><br><br>
+                    <input type="text" id="name" name="name" th:field="*{name}" th:value="${form.name}" /><br><br>
 
                     <label for="birthdate">Nascimento: </label>
                     <input type="date" id="birthdate" name="birthdate" th:value="*{birthdate}" /><br><br>

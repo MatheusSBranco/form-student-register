@@ -4,9 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties.Http;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,7 @@ import com.cadastro.aluno.repository.FormRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -36,9 +39,13 @@ public class FormController {
     }
     
     @GetMapping("/cadastro")
-    public ModelAndView home(FormDto formDto){
-        ModelAndView mv = new ModelAndView("cadastro");
-        mv.addObject("form", new Form());
+    public ModelAndView home(ModelAndView mv, HttpSession session){
+        FormDto formDto = (FormDto) session.getAttribute("form");
+        if (formDto == null){
+            formDto = new FormDto();
+        }
+
+        mv.addObject("form", formDto);
         mv.addObject("gradeOptions", gradeOptions());
         mv.addObject("shiftOptions", shiftOptions());
         mv.addObject("extraOptions", extraOptions());
@@ -46,9 +53,10 @@ public class FormController {
     }
 
     @PostMapping("/cadastro")
-    public String cadastro(@Valid FormDto formDto, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String cadastro(@Valid FormDto formDto, BindingResult bindingResult, RedirectAttributes redirectAttributes , HttpSession session){
 
         if (bindingResult.hasErrors()) {
+            session.setAttribute("form", formDto);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             return "redirect:/error";
         }        
@@ -64,7 +72,9 @@ public class FormController {
             form.setGrade(formDto.getGrade());
             form.setShift(formDto.getShift());
             form.setExtracurricular(formDto.getExtracurricular());
-            formRepository.save(form);   
+            formRepository.save(form);
+            
+            session.removeAttribute("form");
 
         return "redirect:/lista";
     }
@@ -77,8 +87,8 @@ public class FormController {
     }
 
     @GetMapping("/error")
-    public String error(Model model, BindingResult bindingResult) {
-        model.addAttribute("errors", bindingResult.getAllErrors());
+    public String error(ModelAndView mv, BindingResult bindingResult) {
+        mv.addObject("errors", bindingResult.getAllErrors());
         return "error";
     }
 
